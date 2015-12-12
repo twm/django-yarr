@@ -180,13 +180,16 @@ class Feed(models.Model):
             if isinstance(bozo, urllib2.URLError):
                 raise FeedError('URL error: %s' % bozo)
                 
-            # Unrecognised exception
-            # Most of these will be SAXParseException, which doesn't convert
-            # to a string cleanly, so explicitly mention the exception class
-            raise FeedError(
-                'Feed error: %s - %s' % (bozo.__class__.__name__, bozo),
-                feed=feed, entries=entries,
-            )
+            # Ignore common feed problems that feedparser can work around.
+            if not isinstance(bozo, (feedparser.CharacterEncodingOverride,
+                                     feedparser.NonXMLContentType)):
+                # Unrecognised exception
+                # Most of these will be SAXParseException, which doesn't convert
+                # to a string cleanly, so explicitly mention the exception class
+                raise FeedError(
+                    'Feed error: %s - %s' % (bozo.__class__.__name__, bozo),
+                    feed=feed, entries=entries,
+                )
             
         # Accepted status:
         #   200 OK
