@@ -37,5 +37,4 @@ class Command(BaseCommand):
         
         # Update feed unread and total counts
         if options['update_cache']:
-            models.Feed.objects.update_count_unread().update_count_total()
-        
+            models.Feed.objects.update_count_unread().update_count_saved().update_count_total()
