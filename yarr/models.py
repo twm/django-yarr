@@ -138,6 +138,9 @@ class Feed(models.Model):
     count_unread = models.IntegerField(
         default=0, help_text="Cache of number of unread items",
     )
+    count_saved = models.IntegerField(
+        default=0, help_text="Cache of number of saved items",
+    )
     count_total = models.IntegerField(
         default=0, help_text="Cache of total number of items",
     )

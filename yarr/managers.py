@@ -87,6 +87,13 @@ class FeedQuerySet(models.query.QuerySet):
             'field':    'count_unread',
             'where':    ' AND state=%s' % ENTRY_UNREAD,
         })
+
+    def update_count_saved(self):
+        "Update the cached saved counts"
+        return self._do_update({
+            'field':    'count_saved',
+            'where':    ' AND state=%s' % ENTRY_SAVED,
+        })
     
     def count_unread(self):
         "Get a dict of unread counts, with feed pks as keys"
